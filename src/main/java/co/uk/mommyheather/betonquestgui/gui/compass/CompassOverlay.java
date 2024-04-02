@@ -5,7 +5,6 @@ import co.uk.mommyheather.betonquestgui.config.BQGConfig;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -52,7 +51,6 @@ public class CompassOverlay
     public static void renderCompass(Gui gui, GuiGraphics guiGraphics, float partialTicks, int screenWidth, int screenHeight)
     {
         int halfWidth = screenWidth / 2;
-        
 
         float cameraAngle = -Mth.wrapDegrees(Minecraft.getInstance().player.getYRot() + 90);
 
@@ -60,7 +58,7 @@ public class CompassOverlay
 
         double guiScale = Minecraft.getInstance().getWindow().getGuiScale();
 
-        RenderSystem.enableScissor((int) ((halfWidth - (COMPASS_FRAME_X / 2) + 15) * guiScale), 0, (int) ((COMPASS_FRAME_X - 30) * guiScale), (int) (480 * guiScale));
+        RenderSystem.enableScissor((int) ((halfWidth - (COMPASS_FRAME_X / 2) + 18) * guiScale), 0, (int) ((COMPASS_FRAME_X - 36) * guiScale), (int) (480 * guiScale));
 
         drawString(guiGraphics, "N", (int) wrapDegrees(cameraAngle + 90), halfWidth);
         drawString(guiGraphics, "W", (int) wrapDegrees(cameraAngle + 0), halfWidth);
@@ -108,18 +106,13 @@ public class CompassOverlay
         if (Math.abs(viewDegree) > VIEWING_ANGLE / 2) {
             return;
         }
-        //Gui.drawCenteredString(guiGraphics, Minecraft.getInstance().font, compassCardinal, halfWidth + getBarPosition(viewDegree, 155), POSY + 7, -1);
-        Minecraft.getInstance().font.drawInBatch(
+
+        guiGraphics.drawString(
+                Minecraft.getInstance().font,
                 compassCardinal,
                 halfWidth + getBarPosition(viewDegree, (COMPASS_FRAME_X / 2)) - (Minecraft.getInstance().font.width(compassCardinal) /2),
                 POSY + 7,
-                16777215,
-                false,
-                guiGraphics.pose().last().pose(),
-                guiGraphics.bufferSource(),
-                Font.DisplayMode.NORMAL,
-                0,
-                15728880
+                16777215
         );
     }
 
@@ -132,20 +125,15 @@ public class CompassOverlay
 
         guiGraphics.pose().pushPose();
         guiGraphics.pose().scale(scale, scale, scale);
-        /* draw with shadow */
-        //Gui.drawCenteredString(guiGraphics, Minecraft.getInstance().font, compassCardinal, (int) ((halfWidth + getBarPosition(viewDegree, (155))) * (1 / scale)), (int) ((POSY + 8) * (1 / scale)), -1);
-        Minecraft.getInstance().font.drawInBatch(
+
+        guiGraphics.drawString(
+                Minecraft.getInstance().font,
                 compassCardinal,
-                ((halfWidth + getBarPosition(viewDegree, (COMPASS_FRAME_X / 2))) * (1 / scale)) - (Minecraft.getInstance().font.width(compassCardinal) / 2),
-                ((POSY + 8) * (1 / scale)),
-                16777215,
-                false,
-                guiGraphics.pose().last().pose(),
-                guiGraphics.bufferSource(),
-                Font.DisplayMode.NORMAL,
-                0,
-                15728880
+                (int) (((halfWidth + getBarPosition(viewDegree, (COMPASS_FRAME_X / 2))) * (1 / scale)) - (Minecraft.getInstance().font.width(compassCardinal) / 2)),
+                (int) ((POSY + 8) * (1 / scale)),
+                16777215
         );
+
         guiGraphics.pose().popPose();
     }
 
@@ -184,21 +172,12 @@ public class CompassOverlay
             guiGraphics.pose().pushPose();
             guiGraphics.pose().scale(scale, scale, scale);
 
-        /* Gui.drawString(ms, Minecraft.getInstance().font, distance,
-                (int) ((halfWidth + getBarPosition(viewDegree, (155))) * (1 / 0.7)) - Minecraft.getInstance().font.width(distance) + 4,
-                (int) ((POSY + 15 ) * (1 / 0.6)), -1); */
-            /* draw string without shadow more readable */
-            Minecraft.getInstance().font.drawInBatch(
-                    formattedDistance.getString(),
-                    (xBarPosition * (1 / scale) - (stringWidth / 2 ) ),
-                    ((POSY + 22) * (1 / scale)),
-                    16777215,
-                    false,
-                    guiGraphics.pose().last().pose(),
-                    guiGraphics.bufferSource(),
-                    Font.DisplayMode.NORMAL,
-                    0,
-                    15728880
+            guiGraphics.drawString(
+                    Minecraft.getInstance().font,
+                    formattedDistance,
+                    (int) ((xBarPosition * (1 / scale) - (stringWidth / 2 ))),
+                    (int) ((POSY + 22) * (1 / scale)),
+                    16777215
             );
 
             guiGraphics.pose().popPose();
