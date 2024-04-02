@@ -113,13 +113,13 @@ public class CompassOverlay
                 compassCardinal,
                 halfWidth + getBarPosition(viewDegree, (COMPASS_FRAME_X / 2)) - (Minecraft.getInstance().font.width(compassCardinal) /2),
                 POSY + 7,
-                0,
+                16777215,
                 false,
                 guiGraphics.pose().last().pose(),
                 guiGraphics.bufferSource(),
                 Font.DisplayMode.NORMAL,
-                -1,
-                0
+                0,
+                15728880
         );
     }
 
@@ -138,13 +138,13 @@ public class CompassOverlay
                 compassCardinal,
                 ((halfWidth + getBarPosition(viewDegree, (COMPASS_FRAME_X / 2))) * (1 / scale)) - (Minecraft.getInstance().font.width(compassCardinal) / 2),
                 ((POSY + 8) * (1 / scale)),
-                0,
+                16777215,
                 false,
                 guiGraphics.pose().last().pose(),
                 guiGraphics.bufferSource(),
                 Font.DisplayMode.NORMAL,
-                -1,
-                0
+                0,
+                15728880
         );
         guiGraphics.pose().popPose();
     }
@@ -192,13 +192,13 @@ public class CompassOverlay
                     formattedDistance.getString(),
                     (xBarPosition * (1 / scale) - (stringWidth / 2 ) ),
                     ((POSY + 22) * (1 / scale)),
-                    0,
+                    16777215,
                     false,
                     guiGraphics.pose().last().pose(),
                     guiGraphics.bufferSource(),
                     Font.DisplayMode.NORMAL,
-                    -1,
-                    0
+                    0,
+                    15728880
             );
 
             guiGraphics.pose().popPose();
