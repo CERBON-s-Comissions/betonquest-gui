@@ -1,10 +1,9 @@
 package co.uk.mommyheather.betonquestgui.gui.widgets;
 
 import co.uk.mommyheather.betonquestgui.gui.Row;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -16,7 +15,7 @@ import javax.annotation.Nonnull;
 import java.util.Optional;
 
 @OnlyIn(Dist.CLIENT)
-public class WidgetRow extends GuiComponent implements Renderable
+public class WidgetRow implements Renderable
 {
     private final int x;
     private final int y;
@@ -37,14 +36,13 @@ public class WidgetRow extends GuiComponent implements Renderable
     }
 
     @Override
-    @SuppressWarnings("resource")
-    public void render(@Nonnull PoseStack matrixStack, int mouseX, int mouseY, float unused)
+    public void render(@Nonnull GuiGraphics guiGraphics, int mouseX, int mouseY, float unused)
     {
         MutableInt xOffset = new MutableInt();
         this.row.getText().visit((style, text) ->
         {
             Component textComponent = Component.literal(text).setStyle(style);
-            drawString(matrixStack, Minecraft.getInstance().font, Component.literal(text).setStyle(style), this.x + xOffset.getValue(), this.y, this.color);
+            guiGraphics.drawString(Minecraft.getInstance().font, Component.literal(text).setStyle(style), this.x + xOffset.getValue(), this.y, this.color);
             xOffset.add(Minecraft.getInstance().font.width(textComponent));
             return Optional.empty();
         }, Style.EMPTY);

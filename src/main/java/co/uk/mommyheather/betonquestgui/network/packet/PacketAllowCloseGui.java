@@ -2,9 +2,7 @@ package co.uk.mommyheather.betonquestgui.network.packet;
 
 import co.uk.mommyheather.betonquestgui.network.PacketHandler;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.network.NetworkEvent;
-
-import java.util.function.Supplier;
+import net.minecraftforge.event.network.CustomPayloadEvent;
 
 public class PacketAllowCloseGui
 {
@@ -19,10 +17,10 @@ public class PacketAllowCloseGui
 
     public static class Handler
     {
-        public static void handle(PacketAllowCloseGui packet, Supplier<NetworkEvent.Context> context)
+        public static void handle(PacketAllowCloseGui packet, CustomPayloadEvent.Context context)
         {
-            context.get().enqueueWork(PacketHandler::handleAllowCloseGui);
-            context.get().setPacketHandled(true);
+            context.enqueueWork(PacketHandler::handleAllowCloseGui);
+            context.setPacketHandled(true);
         }
     }
 }

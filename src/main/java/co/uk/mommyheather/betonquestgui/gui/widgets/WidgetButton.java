@@ -3,6 +3,7 @@ package co.uk.mommyheather.betonquestgui.gui.widgets;
 import co.uk.mommyheather.betonquestgui.BetonQuestGui;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.CommonComponents;
@@ -37,7 +38,7 @@ public class WidgetButton extends Button
     }
 
     @Override
-    public void render(@Nonnull PoseStack matrixStack, int mouseX, int mouseY, float unused)
+    public void renderWidget(@Nonnull GuiGraphics guiGraphics, int mouseX, int mouseY, float unused)
     {
         if (!this.visible) {
             return;

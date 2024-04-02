@@ -5,19 +5,21 @@ import co.uk.mommyheather.betonquestgui.gui.widgets.*;
 import co.uk.mommyheather.betonquestgui.network.PacketHandler;
 import co.uk.mommyheather.betonquestgui.network.packet.PacketCloseGui;
 import co.uk.mommyheather.betonquestgui.network.packet.PacketPlayerChoice;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.StringSplitter;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.*;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.network.PacketDistributor;
 
 import javax.annotation.Nonnull;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -144,38 +146,38 @@ public class BetonQuestConversation extends Screen
     public void onClose()
     {
         super.onClose();
-        PacketHandler.INSTANCE.sendToServer(new PacketCloseGui());
+        PacketHandler.INSTANCE.send(new PacketCloseGui(), PacketDistributor.SERVER.noArg());
     }
 
     @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double amount)
+    public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY)
     {
-        if (amount < 0) {
+        if (scrollX < 0) {
             if (mouseX > 0 && mouseX < super.width / 3.0F * 2 && mouseY > super.height - CONVERSATION_DIV_HEIGHT && mouseY < super.height) {
-                for (int counter = (int) amount; counter != 0; counter++) {
+                for (int counter = (int) scrollX; counter != 0; counter++) {
                     if (this.leftRowList.canShiftDown()) {
                         this.leftShift++;
                     }
                     this.reloadLeftRows();
                 }
             } else if (mouseX > super.width / 3.0F * 2 && mouseX < super.width && mouseY > super.height - CONVERSATION_DIV_HEIGHT && mouseY < super.height) {
-                for (int counter = (int) amount; counter != 0; counter++) {
+                for (int counter = (int) scrollX; counter != 0; counter++) {
                     if (this.choices.canShiftDown()) {
                         this.rightShift++;
                     }
                     this.reloadRightRows();
                 }
             }
-        } else if (amount > 0) {
+        } else if (scrollX > 0) {
             if (mouseX > 0 && mouseX < super.width / 3.0F * 2 && mouseY > super.height - CONVERSATION_DIV_HEIGHT && mouseY < super.height) {
-                for (int counter = (int) amount; counter != 0; counter--) {
+                for (int counter = (int) scrollX; counter != 0; counter--) {
                     if (this.leftRowList.canShiftUp()) {
                         this.leftShift--;
                     }
                     this.reloadLeftRows();
                 }
             } else if (mouseX > super.width / 3.0F * 2 && mouseX < super.width && mouseY > super.height - CONVERSATION_DIV_HEIGHT && mouseY < super.height) {
-                for (int counter = (int) amount; counter != 0; counter--) {
+                for (int counter = (int) scrollX; counter != 0; counter--) {
                     if (this.choices.canShiftUp()) {
                         this.rightShift--;
                     }
@@ -183,26 +185,26 @@ public class BetonQuestConversation extends Screen
                 }
             }
         }
-        return super.mouseScrolled(mouseX, mouseY, amount);
+        return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
     }
 
     @Override
-    public void render(@Nonnull PoseStack matrixStack, int mouseX, int mouseY, float unused)
+    public void render(@Nonnull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick)
     {
         if (BQGConfig.CONFIG.dimGame.get()) {
-            this.renderBackground(matrixStack);
+            this.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
         }
-        //super.render(matrixStack, mouseX, mouseY, unused);
+        //super.render(guiGraphics, mouseX, mouseY, partialTick);
         for (Renderable object : this.objects) {
-            object.render(matrixStack, mouseX, mouseY, unused);
+            object.render(guiGraphics, mouseX, mouseY, partialTick);
         }
         for (Renderable leftRow : this.leftRows) {
-            leftRow.render(matrixStack, mouseX, mouseY, unused);
+            leftRow.render(guiGraphics, mouseX, mouseY, partialTick);
         }
         for (Renderable rightRow : this.rightRows) {
-            rightRow.render(matrixStack, mouseX, mouseY, unused);
+            rightRow.render(guiGraphics, mouseX, mouseY, partialTick);
         }
-        this.header.render(matrixStack, mouseX, mouseY, unused);
+        this.header.render(guiGraphics, mouseX, mouseY, partialTick);
     }
   
 
@@ -364,6 +366,6 @@ public class BetonQuestConversation extends Screen
             text.append(widgetChoice.getChoice().getAbsoluteRow(counter).getText().getString());
         }
         this.lastPlayerChoice = Component.literal(text.toString());
-        PacketHandler.INSTANCE.sendToServer(new PacketPlayerChoice(id));
+        PacketHandler.INSTANCE.send(new PacketPlayerChoice(id), PacketDistributor.SERVER.noArg());
     }
 }

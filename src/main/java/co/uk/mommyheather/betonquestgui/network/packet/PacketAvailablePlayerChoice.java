@@ -4,9 +4,7 @@ import co.uk.mommyheather.betonquestgui.network.PacketHandler;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.network.NetworkEvent;
-
-import java.util.function.Supplier;
+import net.minecraftforge.event.network.CustomPayloadEvent;
 
 public class PacketAvailablePlayerChoice
 {
@@ -30,10 +28,10 @@ public class PacketAvailablePlayerChoice
 
     public static class Handler
     {
-        public static void handle(PacketAvailablePlayerChoice packet, Supplier<NetworkEvent.Context> context)
+        public static void handle(PacketAvailablePlayerChoice packet, CustomPayloadEvent.Context context)
         {
-            context.get().enqueueWork(() -> PacketHandler.handlePlayerChoice(packet.id, packet.text));
-            context.get().setPacketHandled(true);
+            context.enqueueWork(() -> PacketHandler.handlePlayerChoice(packet.id, packet.text));
+            context.setPacketHandled(true);
         }
     }
 }

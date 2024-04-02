@@ -12,20 +12,21 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.network.NetworkRegistry;
-import net.minecraftforge.network.simple.SimpleChannel;
+import net.minecraftforge.network.ChannelBuilder;
+import net.minecraftforge.network.SimpleChannel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PacketHandler
 {
-    public static final SimpleChannel INSTANCE = NetworkRegistry.ChannelBuilder
+    public static final SimpleChannel INSTANCE = ChannelBuilder
             .named(new ResourceLocation(BetonQuestGui.MOD_ID, "main"))
-            .clientAcceptedVersions(BetonQuestGui.PROTOCOL_VERSION::equals)
-            .serverAcceptedVersions(BetonQuestGui.PROTOCOL_VERSION::equals)
-            .networkProtocolVersion(() -> BetonQuestGui.PROTOCOL_VERSION)
+            .clientAcceptedVersions((s, v) -> true)
+            .serverAcceptedVersions((s, v) -> true)
+            .networkProtocolVersion(BetonQuestGui.PROTOCOL_VERSION)
             .simpleChannel();
+
     private static BetonQuestConversation BETONQUEST_CONVERSATION;
 
     public static void registerPackets()
@@ -65,7 +66,6 @@ public class PacketHandler
         }
     }
 
-    @SuppressWarnings("resource")
     public static void handleNpcDialogue(String npcName, String text)
     {
         if (BETONQUEST_CONVERSATION != null) {
@@ -93,7 +93,6 @@ public class PacketHandler
         }
     }
 
-    @SuppressWarnings("resource")
     public static void handlePlayerChoice(int id, String text)
     {
         if (BETONQUEST_CONVERSATION != null) {

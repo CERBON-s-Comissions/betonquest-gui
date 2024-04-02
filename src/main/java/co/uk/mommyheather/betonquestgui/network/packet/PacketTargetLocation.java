@@ -4,9 +4,7 @@ import co.uk.mommyheather.betonquestgui.network.PacketHandler;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.network.NetworkEvent;
-
-import java.util.function.Supplier;
+import net.minecraftforge.event.network.CustomPayloadEvent;
 
 public class PacketTargetLocation
 {
@@ -32,10 +30,10 @@ public class PacketTargetLocation
 
     public static class Handler
     {
-        public static void handle(PacketTargetLocation packet, Supplier<NetworkEvent.Context> context)
+        public static void handle(PacketTargetLocation packet, CustomPayloadEvent.Context context)
         {
-            context.get().enqueueWork(() -> PacketHandler.handleTargetLocation(packet.x, packet.y, packet.z));
-            context.get().setPacketHandled(true);
+            context.enqueueWork(() -> PacketHandler.handleTargetLocation(packet.x, packet.y, packet.z));
+            context.setPacketHandled(true);
         }
     }
 }

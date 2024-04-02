@@ -1,9 +1,8 @@
 package co.uk.mommyheather.betonquestgui.gui.widgets;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraftforge.api.distmarker.Dist;
@@ -12,7 +11,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
-public class WidgetText extends GuiComponent implements Renderable
+public class WidgetText implements Renderable
 {
     private final MutableComponent text;
     private final int x;
@@ -33,11 +32,10 @@ public class WidgetText extends GuiComponent implements Renderable
     }
 
     @Override
-    @SuppressWarnings("resource")
-    public void render(@Nonnull PoseStack matrixStack, int mouseX, int mouseY, float unused)
+    public void render(@Nonnull GuiGraphics guiGraphics, int mouseX, int mouseY, float unused)
     {
-        matrixStack.scale(this.scale, this.scale, this.scale);
-        drawString(matrixStack, Minecraft.getInstance().font, this.text, (int) (this.x / this.scale), (int) (this.y / this.scale), ChatFormatting.WHITE.getColor());
-        matrixStack.scale(1.0F / this.scale, 1.0F / this.scale, 1.0F / this.scale);
+        guiGraphics.pose().scale(this.scale, this.scale, this.scale);
+        guiGraphics.drawString(Minecraft.getInstance().font, this.text, (int) (this.x / this.scale), (int) (this.y / this.scale), ChatFormatting.WHITE.getColor());
+        guiGraphics.pose().scale(1.0F / this.scale, 1.0F / this.scale, 1.0F / this.scale);
     }
 }

@@ -3,7 +3,7 @@ package co.uk.mommyheather.betonquestgui.gui.widgets;
 import co.uk.mommyheather.betonquestgui.BetonQuestGui;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
@@ -13,7 +13,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
-public class WidgetResizableDiv extends GuiComponent implements Renderable
+public class WidgetResizableDiv implements Renderable
 {
     private static final ResourceLocation BORDER_TEXTURE = new ResourceLocation(BetonQuestGui.MOD_ID, "textures/gui/border.png");
     private static final ResourceLocation BACKGROUND_TEXTURE = new ResourceLocation(BetonQuestGui.MOD_ID, "textures/gui/background.png");
@@ -36,7 +36,7 @@ public class WidgetResizableDiv extends GuiComponent implements Renderable
     }
 
     @Override
-    public void render(@Nonnull PoseStack matrixStack, int mouseX, int mouseY, float f)
+    public void render(@Nonnull GuiGraphics guiGraphics, int mouseX, int mouseY, float f)
     {
         //RenderSystem.setShaderColor(this.red, this.green, this.blue, this.alpha);
         RenderSystem.setShaderTexture(0, BACKGROUND_TEXTURE);
