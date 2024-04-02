@@ -1,7 +1,7 @@
 modLoader="javafml"
 loaderVersion="[43,)"
 license="GPL"
-issueTrackerURL="https://github.com/MommyHeather/betonquest-gui-1.19.4/"
+issueTrackerURL="https://github.com/CerbonXD/betonquest-gui"
 
 [[mods]]
 modId="betonquestgui"
