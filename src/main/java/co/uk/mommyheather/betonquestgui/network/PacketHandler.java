@@ -49,7 +49,8 @@ public class PacketHandler
 
     public static void handleCloseGui()
     {
-        Minecraft.getInstance().setScreen(null);
+        if (Minecraft.getInstance().screen == BETONQUEST_CONVERSATION)
+            Minecraft.getInstance().setScreen(null);
     }
 
     public static void handleAllowCloseGui()
