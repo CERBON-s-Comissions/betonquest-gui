@@ -5,7 +5,6 @@ import co.uk.mommyheather.betonquestgui.config.BQGConfig;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -42,13 +41,13 @@ public class CompassOverlay
             if (screenHeight >= 300) t=18;
             gui.setupOverlayRenderState(true, false);
             guiGraphics.pose().translate(0, t, 0);
-            renderCompass(gui, guiGraphics, partialTicks, screenWidth, screenHeight);
+            renderCompass(guiGraphics, screenWidth);
             guiGraphics.pose().translate(0, -t, 0);
         }
     });
 
     @SuppressWarnings("resource")
-    public static void renderCompass(Gui gui, GuiGraphics guiGraphics, float partialTicks, int screenWidth, int screenHeight)
+    public static void renderCompass(GuiGraphics guiGraphics, int screenWidth)
     {
         int halfWidth = screenWidth / 2;
 
