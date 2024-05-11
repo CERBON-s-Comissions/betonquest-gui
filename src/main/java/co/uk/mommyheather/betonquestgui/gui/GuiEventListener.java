@@ -17,7 +17,7 @@ public class GuiEventListener
     public static void onRenderGameOverlayPre(RenderGuiOverlayEvent.Pre event) {
         if(!BQGConfig.CONFIG.showCompass.get()) return;
 
-        if (VanillaGuiOverlay.BOSS_EVENT_PROGRESS.type() == event.getOverlay() || VanillaGuiOverlay.PLAYER_LIST.type() == event.getOverlay()) {
+        if (VanillaGuiOverlay.PLAYER_LIST.type() == event.getOverlay()) {
             event.getGuiGraphics().pose().translate(0, (CompassOverlay.POSY + 28), 0);
         }
     }
@@ -26,7 +26,7 @@ public class GuiEventListener
     public static void onRenderGameOverlayPost(RenderGuiOverlayEvent.Post event) {
         if(!BQGConfig.CONFIG.showCompass.get()) return;
 
-        if (VanillaGuiOverlay.BOSS_EVENT_PROGRESS.type() == event.getOverlay() || VanillaGuiOverlay.PLAYER_LIST.type() == event.getOverlay()) {
+        if (VanillaGuiOverlay.PLAYER_LIST.type() == event.getOverlay()) {
             event.getGuiGraphics().pose().translate(0, -(CompassOverlay.POSY + 28), 0);
         }
     }
